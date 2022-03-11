@@ -134,15 +134,26 @@ fn main() -> Result<()> {
         ),
         "Arch Linux" => (
             r#" 
-   /\   
-  /` \  
- / __'\ 
-/-'  '-\"#
+         
+    /\   
+   /` \  
+  / __'\ 
+ /-'  '-\"#
                 .split('\n')
                 .collect(),
             Color::Blue,
         ),
-        _ => (Vec::new(), Color::Reset),
+        _ => (
+            r#"
+#######  
+   ###   
+  ###    
+ ###     
+#######  "#
+                .split('\n')
+                .collect(),
+            Color::White,
+        ),
     };
 
     let kver = get_kver();
