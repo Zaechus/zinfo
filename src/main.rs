@@ -53,6 +53,9 @@ fn get_uptime() -> String {
             .parse::<f64>()
             .unwrap_or(0.0) as i32;
 
+        let days = seconds / 86400;
+        seconds -= days * 86400;
+
         let hours = seconds / 3600;
         seconds -= hours * 3600;
 
@@ -60,16 +63,21 @@ fn get_uptime() -> String {
         seconds -= minutes * 60;
 
         format!(
-            "{}{}{} s",
+            "{}{}{}{}s",
+            if days == 0 {
+                String::default()
+            } else {
+                format!("{}d ", days)
+            },
             if hours == 0 {
                 String::default()
             } else {
-                format!("{} h ", hours)
+                format!("{}h ", hours)
             },
             if minutes == 0 {
                 String::default()
             } else {
-                format!("{} m ", minutes)
+                format!("{}m ", minutes)
             },
             seconds
         )
