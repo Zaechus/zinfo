@@ -18,7 +18,7 @@ fn get_os_info(os_release: &str, key: &str) -> String {
     {
         pretty_name[1].trim_matches('"').to_owned()
     } else {
-        "linux".to_owned()
+        "Linux".to_owned()
     }
 }
 
@@ -59,7 +59,20 @@ fn get_uptime() -> String {
         let minutes = seconds / 60;
         seconds -= minutes * 60;
 
-        format!("{} h {} m {} s", hours, minutes, seconds)
+        format!(
+            "{}{}{} s",
+            if hours == 0 {
+                String::default()
+            } else {
+                format!("{} h ", hours)
+            },
+            if minutes == 0 {
+                String::default()
+            } else {
+                format!("{} m ", minutes)
+            },
+            seconds
+        )
     } else {
         "0 s".to_owned()
     }
