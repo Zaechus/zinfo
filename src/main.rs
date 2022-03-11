@@ -2,12 +2,12 @@ use std::{
     collections::HashMap,
     env,
     fs::{self, File},
-    io::{self, BufRead, BufReader},
+    io::{self, stdout, BufRead, BufReader},
 };
 
 use crossterm::{
-    style::{style, Attribute, Color, Stylize},
-    Result,
+    style::{style, Attribute, Color, ResetColor, Stylize},
+    ExecutableCommand, Result,
 };
 
 fn get_os() -> String {
@@ -121,35 +121,59 @@ fn main() -> Result<()> {
 
     let os_name = get_os();
     let logo: (Vec<_>, Color) = match os_name.as_str() {
-        "Gentoo/Linux" => (
+        "Alpine Linux" => (
             r#"
-  _____  
- /     \ 
- \  0   )
- /     / 
- \____/  "#
-                .split('\n')
-                .collect(),
-            Color::Magenta,
-        ),
-        "Arch Linux" => (
-            r#" 
-         
-    /\   
-   /` \  
-  / __'\ 
- /-'  '-\"#
+  ______  
+ /      \ 
+/  /\/\  \
+\ /, \ \ /
+ \______/ "#
                 .split('\n')
                 .collect(),
             Color::Blue,
         ),
+        "Arch Linux" => (
+            r#" 
+          
+    /\    
+   /` \   
+  / __'\  
+ /-'  '-\ "#
+                .split('\n')
+                .collect(),
+            Color::Cyan,
+        ),
+
+        "Gentoo/Linux" => (
+            r#"
+   _____  
+  /     \ 
+  \  0   )
+  /     / 
+  \____/  "#
+                .split('\n')
+                .collect(),
+            Color::Magenta,
+        ),
+        "Void Linux" => (
+            r#"
+          
+  ,-'''-, 
+ /       \
+  V O I D 
+ \       /
+  `-...-` "#
+                .split('\n')
+                .collect(),
+            Color::Green,
+        ),
         _ => (
             r#"
-#######  
-   ###   
-  ###    
- ###     
-#######  "#
+          
+  ####### 
+    ####  
+   ####   
+  ####### "#
                 .split('\n')
                 .collect(),
             Color::White,
@@ -183,12 +207,13 @@ fn main() -> Result<()> {
     for (x, item) in info.iter().enumerate().skip(1) {
         println!(
             "{}  {}",
-            style(logo.0.get(x + 1).unwrap_or(&"         "))
+            style(logo.0.get(x + 1).unwrap_or(&"          "))
                 .with(logo.1)
                 .attribute(Attribute::Bold),
             item
         )
     }
+    stdout().execute(ResetColor)?;
 
     Ok(())
 }
