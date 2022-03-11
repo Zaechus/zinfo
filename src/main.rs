@@ -10,19 +10,15 @@ use crossterm::{
     ExecutableCommand, Result,
 };
 
-fn get_os() -> String {
-    if let Ok(os_release) = fs::read_to_string("/etc/os-release") {
-        if let Some(pretty_name) = os_release
-            .split('\n')
-            .map(|line| line.split('=').collect::<Vec<_>>())
-            .find(|line| line[0] == "PRETTY_NAME")
-        {
-            pretty_name[1].trim_matches('"').to_owned()
-        } else {
-            "Linux".to_owned()
-        }
+fn get_os_info(os_release: &str, key: &str) -> String {
+    if let Some(pretty_name) = os_release
+        .split('\n')
+        .map(|line| line.split('=').collect::<Vec<_>>())
+        .find(|line| line[0] == key)
+    {
+        pretty_name[1].trim_matches('"').to_owned()
     } else {
-        "Linux".to_owned()
+        "linux".to_owned()
     }
 }
 
@@ -119,9 +115,14 @@ fn main() -> Result<()> {
         "hostname".to_owned()
     };
 
-    let os_name = get_os();
-    let logo: (Vec<_>, Color) = match os_name.as_str() {
-        "Alpine Linux" => (
+    let os_release = if let Ok(s) = fs::read_to_string("/etc/os-release") {
+        s
+    } else {
+        "ID=linux\nPRETTYNAME=\"Linux\"".to_owned()
+    };
+    let os_name = get_os_info(&os_release, "PRETTY_NAME");
+    let logo: (Vec<_>, Color) = match get_os_info(&os_release, "ID").as_str() {
+        "alpine" => (
             r#"
   ______  
  /      \ 
@@ -132,7 +133,7 @@ fn main() -> Result<()> {
                 .collect(),
             Color::Blue,
         ),
-        "Arch Linux" => (
+        "arch" => (
             r#" 
           
     /\    
@@ -144,7 +145,7 @@ fn main() -> Result<()> {
             Color::Cyan,
         ),
 
-        "Gentoo/Linux" => (
+        "gentoo" => (
             r#"
    _____  
   /     \ 
@@ -155,7 +156,7 @@ fn main() -> Result<()> {
                 .collect(),
             Color::Magenta,
         ),
-        "Void Linux" => (
+        "void" => (
             r#"
           
   ,-'''-, 
