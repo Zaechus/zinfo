@@ -1,0 +1,11 @@
+[package]
+name = "zinfo"
+version = "0.1.0"
+edition = "2021"
+authors = ["Maxwell Anderson <maxwell.anderson.public@protonmail.com"]
+license = "MIT"
+repository = "https://gitlab.com/Zaechus/zinfo"
+description = "A small system information program"
+
+[dependencies]
+crossterm = "0.23"
