@@ -123,6 +123,7 @@ fn get_mem() -> io::Result<String> {
 }
 
 fn main() -> Result<()> {
+    let args: Vec<_> = env::args().collect();
     let envvars: HashMap<_, _> = env::vars().collect();
 
     let username = if let Some(var) = envvars.get("USER") {
@@ -142,7 +143,12 @@ fn main() -> Result<()> {
         "ID=linux\nPRETTYNAME=\"Linux\"".to_owned()
     };
     let os_name = get_os_info(&os_release, "PRETTY_NAME");
-    let logo: (Vec<_>, Color) = match get_os_info(&os_release, "ID").as_str() {
+    let os_id = if let Some(arg) = args.get(1) {
+        arg.to_owned()
+    } else {
+        get_os_info(&os_release, "ID")
+    };
+    let logo: (Vec<_>, Color) = match os_id.as_str() {
         "alpine" => (
             r#"
   ______  
