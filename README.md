@@ -4,6 +4,7 @@ A small system information program
 
 ### Supported Systems
 
+- Android
 - Linux
     - Alpine Linux
     - Arch Linux

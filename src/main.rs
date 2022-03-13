@@ -18,15 +18,22 @@ fn main() -> Result<()> {
     let envvars: HashMap<_, _> = env::vars().collect();
 
     #[cfg(target_os = "linux")]
-    let username = get_user(&envvars);
+    let username = if let Some(var) = envvars.get("USER") {
+        var
+    } else {
+        "user"
+    };
     #[cfg(not(target_os = "linux"))]
-    let username = get_user();
+    let username = get_output("whoami", "user");
 
+    #[cfg(target_os = "linux")]
     let hostname = if let Ok(s) = fs::read_to_string("/etc/hostname") {
         s.trim().to_owned()
     } else {
         "hostname".to_owned()
     };
+    #[cfg(not(target_os = "linux"))]
+    let hostname = get_output("hostname", "hostname");
 
     let os_release = if let Ok(s) = fs::read_to_string("/etc/os-release") {
         s
@@ -193,26 +200,16 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-#[cfg(target_os = "linux")]
-fn get_user(envvars: &HashMap<String, String>) -> String {
-    if let Some(var) = envvars.get("USER") {
-        var
-    } else {
-        "user"
-    }
-    .to_owned()
-}
-
 #[cfg(not(target_os = "linux"))]
-fn get_user() -> String {
-    if let Ok(output) = Command::new("whoami").output() {
+fn get_output(command: &str, default: &str) -> String {
+    if let Ok(output) = Command::new(command).output() {
         if let Ok(s) = String::from_utf8(output.stdout) {
             s.trim().to_owned()
         } else {
-            "user".to_owned()
+            default.to_owned()
         }
     } else {
-        "user".to_owned()
+        default.to_owned()
     }
 }
 
