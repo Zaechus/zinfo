@@ -181,7 +181,11 @@ fn main() -> Result<()> {
         ),
     };
 
+    #[cfg(target_os = "linux")]
     let kver = get_kver();
+    #[cfg(not(target_os = "linux"))]
+    let kver = get_output("uname", &["-r"], "linux");
+
     let uptime = get_uptime();
     let shell = get_shell(&envvars);
     let memory = if let Ok(m) = get_mem() {
