@@ -183,6 +183,63 @@ fn main() -> Result<()> {
                 .collect(),
             Color::Magenta,
         ),
+        "manjaro" => (
+            r#"
+ ##### ## 
+ ##### ## 
+ ##    ## 
+ ## ## ## 
+ ## ## ## 
+ ## ## ## "#
+                .split('\n')
+                .collect(),
+            Color::Green,
+        ),
+        "nixos" => (
+            r#"
+          
+  _\_\/   
+ __/  \/_ 
+  /\__/_  
+   /\ \   "#
+                .split('\n')
+                .collect(),
+            Color::Blue,
+        ),
+        "opensuse-leap" => (
+            r#"
+          
+    .'.   
+  ,`   `, 
+  `.`.`.` 
+    `.`   "#
+                .split('\n')
+                .collect(),
+            Color::Green,
+        ),
+        "opensuse-tumbleweed" => (
+            r#"
+          
+          
+  ,-, ,-, 
+ (   X   )
+  '-' '-' "#
+                .split('\n')
+                .collect(),
+            Color::Green,
+        ),
+        "ubuntu" => (
+            r#"
+          
+  , ---() 
+ /   _   \
+()  (_)   
+ \       /
+  ` ---() "#
+                .split('\n')
+                .collect(),
+            Color::DarkRed,
+        ),
         "void" => (
             r#"
           
@@ -218,7 +275,6 @@ fn main() -> Result<()> {
     };
 
     let info = [
-        format!("{}@{}", username, hostname),
         format!("{}{}", style("os    ").with(logo.1), os_name),
         format!("{}{}", style("kver  ").with(logo.1), kver),
         format!("{}{}", style("up    ").with(logo.1), uptime),
@@ -232,10 +288,10 @@ fn main() -> Result<()> {
         style(username).with(logo.1).attribute(Attribute::Bold),
         style(hostname).with(logo.1).attribute(Attribute::Bold)
     );
-    for (x, item) in info.iter().enumerate().skip(1) {
+    for (x, item) in info.iter().enumerate() {
         println!(
             "{}  {}",
-            style(logo.0.get(x + 1).unwrap_or(&"          "))
+            style(logo.0.get(x + 2).unwrap_or(&"          "))
                 .with(logo.1)
                 .attribute(Attribute::Bold),
             item
