@@ -35,17 +35,26 @@ fn main() -> Result<()> {
     #[cfg(not(target_os = "linux"))]
     let hostname = get_output("hostname", "hostname");
 
+    #[cfg(target_os = "linux")]
     let os_release = if let Ok(s) = fs::read_to_string("/etc/os-release") {
         s
     } else {
         "ID=linux\nPRETTYNAME=\"Linux\"".to_owned()
     };
+
+    #[cfg(target_os = "linux")]
     let os_name = get_os_info(&os_release, "PRETTY_NAME");
+    #[cfg(not(target_os = "linux"))]
+    let os_name = get_output("uname -o", "Linux");
+
     let os_id = if let Some(arg) = args.get(1) {
         arg.to_owned()
-    } else {
+    } else if cfg!(target_os = "linux") {
         get_os_info(&os_release, "ID")
+    } else {
+        os_name.clone()
     };
+
     let logo: (Vec<_>, Color) = match os_id.as_str() {
         "alpine" => (
             r#"
@@ -146,6 +155,16 @@ fn main() -> Result<()> {
   V O I D 
  \       /
   `-...-` "#
+                .split('\n')
+                .collect(),
+            Color::Green,
+        ),
+        "Android" => (
+            r#"
+          
+  \_____/ 
+  / o o \ 
+ |_______|"#
                 .split('\n')
                 .collect(),
             Color::Green,
