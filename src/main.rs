@@ -182,7 +182,11 @@ fn main() -> Result<()> {
     };
 
     #[cfg(target_os = "linux")]
-    let kver = get_kver();
+    let kver = if let Ok(ver) = fs::read_to_string("/proc/version") {
+        ver.split(' ').nth(2).unwrap_or("linux").to_owned()
+    } else {
+        "linux".to_owned()
+    };
     #[cfg(not(target_os = "linux"))]
     let kver = get_output("uname", &["-r"], "linux");
 
@@ -244,14 +248,6 @@ fn get_os_info(os_release: &str, key: &str) -> String {
         pretty_name[1].trim_matches('"').to_owned()
     } else {
         "Linux".to_owned()
-    }
-}
-
-fn get_kver() -> String {
-    if let Ok(ver) = fs::read_to_string("/proc/version") {
-        ver.split(' ').nth(2).unwrap_or("linux").to_owned()
-    } else {
-        "linux".to_owned()
     }
 }
 
