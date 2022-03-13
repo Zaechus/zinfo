@@ -5,7 +5,7 @@ use std::{
     io::{self, stdout, BufRead, BufReader},
 };
 
-#[cfg(target_os = "android")]
+#[cfg(not(target_os = "linux"))]
 use std::process::Command;
 
 use crossterm::{
@@ -17,7 +17,11 @@ fn main() -> Result<()> {
     let args: Vec<_> = env::args().collect();
     let envvars: HashMap<_, _> = env::vars().collect();
 
+    #[cfg(target_os = "linux")]
     let username = get_user(&envvars);
+    #[cfg(not(target_os = "linux"))]
+    let username = get_user();
+
     let hostname = if let Ok(s) = fs::read_to_string("/etc/hostname") {
         s.trim().to_owned()
     } else {
@@ -189,17 +193,27 @@ fn main() -> Result<()> {
     Ok(())
 }
 
+#[cfg(target_os = "linux")]
 fn get_user(envvars: &HashMap<String, String>) -> String {
     if let Some(var) = envvars.get("USER") {
-        var.to_owned()
+        var
     } else {
-        "user".to_owned()
+        "user"
     }
+    .to_owned()
 }
 
 #[cfg(not(target_os = "linux"))]
-fn get_user(envvars: &HashMap<String, String>) -> String {
-    Command::new("whoami").output().unwrap_or("user".to_owned())
+fn get_user() -> String {
+    if let Ok(output) = Command::new("whoami").output() {
+        if let Ok(s) = String::from_utf8(output.stdout) {
+            s.trim().to_owned()
+        } else {
+            "user".to_owned()
+        }
+    } else {
+        "user".to_owned()
+    }
 }
 
 fn get_os_info(os_release: &str, key: &str) -> String {

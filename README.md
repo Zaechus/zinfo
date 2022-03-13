@@ -8,4 +8,9 @@ A small system information program
     - Alpine Linux
     - Arch Linux
     - Gentoo
+    - Manjaro
+    - NixOS
+    - openSUSE Leap
+    - openSUSE Tumbleweed
+    - Ubuntu
     - Void Linux
