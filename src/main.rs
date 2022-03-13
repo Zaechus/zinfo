@@ -35,7 +35,6 @@ fn main() -> Result<()> {
     #[cfg(not(target_os = "linux"))]
     let hostname = get_output("hostname", "hostname");
 
-    #[cfg(target_os = "linux")]
     let os_release = if let Ok(s) = fs::read_to_string("/etc/os-release") {
         s
     } else {
