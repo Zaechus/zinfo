@@ -24,7 +24,7 @@ fn main() -> Result<()> {
         "user"
     };
     #[cfg(not(target_os = "linux"))]
-    let username = get_output("whoami", "user");
+    let username = get_output("whoami", [], "user");
 
     #[cfg(target_os = "linux")]
     let hostname = if let Ok(s) = fs::read_to_string("/etc/hostname") {
@@ -33,7 +33,7 @@ fn main() -> Result<()> {
         "hostname".to_owned()
     };
     #[cfg(not(target_os = "linux"))]
-    let hostname = get_output("hostname", "hostname");
+    let hostname = get_output("hostname", [], "hostname");
 
     let os_release = if let Ok(s) = fs::read_to_string("/etc/os-release") {
         s
@@ -44,7 +44,7 @@ fn main() -> Result<()> {
     #[cfg(target_os = "linux")]
     let os_name = get_os_info(&os_release, "PRETTY_NAME");
     #[cfg(not(target_os = "linux"))]
-    let os_name = get_output("uname -o", "Linux");
+    let os_name = get_output("uname", ["-o"], "Linux");
 
     let os_id = if let Some(arg) = args.get(1) {
         arg.to_owned()
@@ -219,8 +219,8 @@ fn main() -> Result<()> {
 }
 
 #[cfg(not(target_os = "linux"))]
-fn get_output(command: &str, default: &str) -> String {
-    if let Ok(output) = Command::new(command).output() {
+fn get_output(command: &str, args: &[&str], default: &str) -> String {
+    if let Ok(output) = Command::new(command).args(args).output() {
         if let Ok(s) = String::from_utf8(output.stdout) {
             s.trim().to_owned()
         } else {
