@@ -10,10 +10,12 @@ pub struct SysInfo {
 impl SysInfo {
     pub fn new() -> Self {
         Self {
+            #[cfg(not(target_os = "windows"))]
             envvars: env::vars().collect(),
         }
     }
 
+    #[cfg(not(target_os = "windows"))]
     pub fn envvars(&self) -> &HashMap<String, String> {
         &self.envvars
     }

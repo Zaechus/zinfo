@@ -19,6 +19,7 @@ impl SysInfo {
             .split('\\')
             .rev()
             .next()
+            .unwrap_or("user")
     }
 
     #[cfg(not(any(target_os = "linux", target_os = "windows")))]

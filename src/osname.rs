@@ -6,6 +6,7 @@ pub fn get_os_name() -> String {
     get_output("cmd", &["/C", "wmic os get Caption"], "Windows")
         .split('\n')
         .next()
+        .unwrap_or("Microsoft Windows")
         .split(' ')[1..]
         .collect()
 }

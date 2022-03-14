@@ -11,8 +11,8 @@ use std::fs;
 use std::process::Command;
 
 mod logo;
-mod sysinfo;
 mod osname;
+mod sysinfo;
 
 pub use logo::logo;
 pub use sysinfo::SysInfo;
