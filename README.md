@@ -10,6 +10,7 @@ A small system information program
     - Arch Linux
     - Artix Linux
     - Debian
+    - Fedora
     - Gentoo
     - Manjaro
     - NixOS
