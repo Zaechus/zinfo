@@ -10,14 +10,10 @@ use std::fs;
 use std::process::Command;
 
 mod logo;
-mod osname;
 mod sysinfo;
 
 pub use logo::logo;
 pub use sysinfo::SysInfo;
-
-#[cfg(target_os = "windows")]
-pub use osname::get_os_name;
 
 #[cfg(not(target_os = "linux"))]
 pub fn get_output(command: &str, args: &[&str], default: &str) -> String {

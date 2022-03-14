@@ -3,7 +3,7 @@ use crate::SysInfo;
 impl SysInfo {
     #[cfg(target_os = "windows")]
     pub fn get_shell(&self) -> String {
-        return "cmd";
+        "cmd".to_owned()
     }
     #[cfg(not(target_os = "windows"))]
     pub fn get_shell(&self) -> String {

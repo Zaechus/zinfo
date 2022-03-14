@@ -4,6 +4,7 @@ use std::fs;
 #[cfg(not(target_os = "windows"))]
 use std::{collections::HashMap, env};
 
+mod osname;
 mod shell;
 mod whoami;
 
