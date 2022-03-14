@@ -64,7 +64,7 @@ pub fn get_uptime() -> String {
         let mut seconds = uptime
             .split(' ')
             .next()
-            .unwrap_or("0")
+            .unwrap_or("0.0")
             .to_owned()
             .parse::<f64>()
             .unwrap_or(0.0) as i32;

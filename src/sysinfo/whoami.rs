@@ -20,6 +20,7 @@ impl SysInfo {
             .rev()
             .next()
             .unwrap_or("user")
+            .to_owned()
     }
 
     #[cfg(not(any(target_os = "linux", target_os = "windows")))]

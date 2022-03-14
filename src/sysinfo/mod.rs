@@ -1,3 +1,4 @@
+#[cfg(not(target_os = "windows"))]
 use std::{collections::HashMap, env};
 
 mod whoami;

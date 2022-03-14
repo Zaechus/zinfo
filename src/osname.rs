@@ -7,6 +7,6 @@ pub fn get_os_name() -> String {
         .split('\n')
         .next()
         .unwrap_or("Microsoft Windows")
-        .split(' ')[1..]
+        .chars().skip(10)
         .collect()
 }

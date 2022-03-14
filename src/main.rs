@@ -57,7 +57,12 @@ fn main() -> Result<()> {
     let kver = get_output("uname", &["-r"], "linux");
 
     let uptime = get_uptime();
+
+    #[cfg(target_os = "windows")]
+    let shell = "cmd";
+    #[cfg(not(target_os = "windows"))]
     let shell = get_shell(system.envvars());
+
     let memory = if let Ok(m) = get_mem() {
         m
     } else {
