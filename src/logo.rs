@@ -35,6 +35,18 @@ pub fn logo(os_id: &str) -> (Vec<&str>, Color) {
                 .collect(),
             Color::Red,
         ),
+        "fedora" => (
+            r#"
+         
+    ffff 
+    f    
+  fffff  
+    f    
+ ffff    "#
+                .split('\n')
+                .collect(),
+            Color::Blue,
+        ),
         "gentoo" => (
             r#"
    _____  
