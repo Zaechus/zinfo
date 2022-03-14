@@ -41,10 +41,6 @@ fn main() -> Result<()> {
 
     let logo = logo(&os_id);
 
-    let kver = get_kver();
-
-    let uptime = get_uptime();
-
     let memory = if let Ok(m) = get_mem() {
         m
     } else {
@@ -53,8 +49,8 @@ fn main() -> Result<()> {
 
     let info = [
         format!("{}{}", style("os    ").with(logo.1), os_name),
-        format!("{}{}", style("kver  ").with(logo.1), kver),
-        format!("{}{}", style("up    ").with(logo.1), uptime),
+        format!("{}{}", style("kver  ").with(logo.1), get_kver()),
+        format!("{}{}", style("up    ").with(logo.1), get_uptime()),
         format!("{}{}", style("sh    ").with(logo.1), system.get_shell()),
         format!("{}{}", style("mem   ").with(logo.1), memory),
     ];
