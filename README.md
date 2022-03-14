@@ -8,6 +8,8 @@ A small system information program
 - Linux
     - Alpine Linux
     - Arch Linux
+    - Artix Linux
+    - Debian
     - Gentoo
     - Manjaro
     - NixOS

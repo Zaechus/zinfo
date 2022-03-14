@@ -13,7 +13,7 @@ pub fn logo(os_id: &str) -> (Vec<&str>, Color) {
                 .collect(),
             Color::Blue,
         ),
-        "arch" => (
+        "arch" | "artix" => (
             r#" 
           
     /\    
@@ -24,7 +24,17 @@ pub fn logo(os_id: &str) -> (Vec<&str>, Color) {
                 .collect(),
             Color::Cyan,
         ),
-
+        "debian" => (
+            r#"
+    ___   
+   /   \  
+  |  (_/  
+   \      
+    `.    "#
+                .split('\n')
+                .collect(),
+            Color::Red,
+        ),
         "gentoo" => (
             r#"
    _____  
