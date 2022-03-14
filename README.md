@@ -18,3 +18,4 @@ A small system information program
     - openSUSE Tumbleweed
     - Ubuntu
     - Void Linux
+- Windows
