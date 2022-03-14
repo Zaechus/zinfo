@@ -1,8 +1,11 @@
 use std::{
     collections::HashMap,
-    fs::{self, File},
+    fs::File,
     io::{self, BufRead, BufReader},
 };
+
+#[cfg(target_os = "linux")]
+use std::fs;
 
 #[cfg(not(target_os = "linux"))]
 use std::process::Command;
