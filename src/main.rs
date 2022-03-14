@@ -1,4 +1,7 @@
-use std::{env, fs, io::stdout};
+use std::{env, io::stdout};
+
+#[cfg(target_os = "linux")]
+use std::fs;
 
 use crossterm::{
     style::{style, Attribute, ResetColor, Stylize},
@@ -23,10 +26,15 @@ fn main() -> Result<()> {
 
     let os_name = system.get_os_name();
 
+    #[cfg(target_os = "linux")]
     let os_id = if let Some(arg) = args.get(1) {
         arg.to_owned()
-    } else if cfg!(target_os = "linux") {
+    } else {
         system.get_os_info("ID")
+    };
+    #[cfg(not(target_os = "linux"))]
+    let os_id = if let Some(arg) = args.get(1) {
+        arg.to_owned()
     } else {
         os_name.clone()
     };
