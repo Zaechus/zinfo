@@ -1,5 +1,4 @@
 use std::{
-    collections::HashMap,
     fs::File,
     io::{self, BufRead, BufReader},
 };
@@ -31,31 +30,6 @@ pub fn get_output(command: &str, args: &[&str], default: &str) -> String {
     } else {
         default.to_owned()
     }
-}
-
-pub fn get_os_info(os_release: &str, key: &str) -> String {
-    if let Some(pretty_name) = os_release
-        .split('\n')
-        .map(|line| line.split('=').collect::<Vec<_>>())
-        .find(|line| line[0] == key)
-    {
-        pretty_name[1].trim_matches('"').to_owned()
-    } else {
-        "Linux".to_owned()
-    }
-}
-
-pub fn get_shell(envvars: &HashMap<String, String>) -> String {
-    if let Some(var) = envvars.get("SHELL") {
-        if let Some(last_slash) = var.rfind('/') {
-            &var[last_slash + 1..]
-        } else {
-            var
-        }
-    } else {
-        "sh"
-    }
-    .to_owned()
 }
 
 #[cfg(target_os = "linux")]

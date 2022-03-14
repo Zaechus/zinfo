@@ -7,9 +7,6 @@ use crossterm::{
 
 use zinfo::*;
 
-#[cfg(target_os = "windows")]
-use zinfo::get_os_name;
-
 fn main() -> Result<()> {
     let args: Vec<_> = env::args().collect();
 
@@ -24,23 +21,12 @@ fn main() -> Result<()> {
     #[cfg(not(target_os = "linux"))]
     let hostname = get_output("hostname", &[], "hostname");
 
-    let os_release = if let Ok(s) = fs::read_to_string("/etc/os-release") {
-        s
-    } else {
-        "ID=linux\nPRETTYNAME=\"Linux\"".to_owned()
-    };
-
-    #[cfg(target_os = "linux")]
-    let os_name = get_os_info(&os_release, "PRETTY_NAME");
-    #[cfg(target_os = "windows")]
-    let os_name = get_os_name();
-    #[cfg(not(any(target_os = "linux", target_os = "windows")))]
-    let os_name = get_output("uname", &["-o"], "Linux");
+    let os_name = system.get_os_name();
 
     let os_id = if let Some(arg) = args.get(1) {
         arg.to_owned()
     } else if cfg!(target_os = "linux") {
-        get_os_info(&os_release, "ID")
+        system.get_os_info("ID")
     } else {
         os_name.clone()
     };
@@ -58,11 +44,6 @@ fn main() -> Result<()> {
 
     let uptime = get_uptime();
 
-    #[cfg(target_os = "windows")]
-    let shell = "cmd";
-    #[cfg(not(target_os = "windows"))]
-    let shell = get_shell(system.envvars());
-
     let memory = if let Ok(m) = get_mem() {
         m
     } else {
@@ -73,7 +54,7 @@ fn main() -> Result<()> {
         format!("{}{}", style("os    ").with(logo.1), os_name),
         format!("{}{}", style("kver  ").with(logo.1), kver),
         format!("{}{}", style("up    ").with(logo.1), uptime),
-        format!("{}{}", style("sh    ").with(logo.1), shell),
+        format!("{}{}", style("sh    ").with(logo.1), system.get_shell()),
         format!("{}{}", style("mem   ").with(logo.1), memory),
     ];
 
