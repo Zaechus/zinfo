@@ -41,14 +41,7 @@ fn main() -> Result<()> {
 
     let logo = logo(&os_id);
 
-    #[cfg(target_os = "linux")]
-    let kver = if let Ok(ver) = fs::read_to_string("/proc/version") {
-        ver.split(' ').nth(2).unwrap_or("linux").to_owned()
-    } else {
-        "linux".to_owned()
-    };
-    #[cfg(not(target_os = "linux"))]
-    let kver = get_output("uname", &["-r"], "linux");
+    let kver = get_kver();
 
     let uptime = get_uptime();
 

@@ -9,9 +9,11 @@ use std::fs;
 #[cfg(not(target_os = "linux"))]
 use std::process::Command;
 
+mod kver;
 mod logo;
 mod sysinfo;
 
+pub use kver::get_kver;
 pub use logo::logo;
 pub use sysinfo::SysInfo;
 

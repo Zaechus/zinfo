@@ -54,3 +54,9 @@ impl SysInfo {
         }
     }
 }
+
+impl Default for SysInfo {
+    fn default() -> Self {
+        Self::new()
+    }
+}
