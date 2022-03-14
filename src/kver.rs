@@ -1,6 +1,9 @@
 #[cfg(target_os = "linux")]
 use std::fs;
 
+#[cfg(not(target_os = "linux"))]
+use crate::get_output;
+
 #[cfg(target_os = "linux")]
 pub fn get_kver() -> String {
     if let Ok(ver) = fs::read_to_string("/proc/version") {
@@ -16,7 +19,7 @@ pub fn get_kver() -> String {
         .split('\n')
         .nth(1)
         .unwrap_or("NT")
-        .collect()
+        .to_owned()
 }
 
 #[cfg(not(any(target_os = "linux", target_os = "windows")))]
