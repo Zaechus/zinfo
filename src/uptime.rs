@@ -1,6 +1,9 @@
 #[cfg(target_os = "linux")]
 use std::fs;
 
+#[cfg(not(target_os = "linux"))]
+use crate::get_output;
+
 #[cfg(target_os = "linux")]
 pub fn get_uptime() -> String {
     if let Ok(uptime) = fs::read_to_string("/proc/uptime") {
