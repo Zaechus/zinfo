@@ -19,7 +19,7 @@ impl SysInfo {
                 .skip(10)
                 .collect()
         } else {
-            "Windows"
+            "Windows".to_owned()
         }
     }
 

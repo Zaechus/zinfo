@@ -16,7 +16,7 @@ pub fn get_kver() -> String {
 #[cfg(target_os = "windows")]
 pub fn get_kver() -> String {
     get_output("cmd", &["/C", "wmic os get Version"])
-        .unwrap_or("NT")
+        .unwrap_or("NT".to_owned())
         .split('\n')
         .nth(1)
         .unwrap_or("NT")

@@ -59,6 +59,7 @@ pub fn get_uptime() -> String {
         seconds_to_date(
             o.split('\n')
                 .nth(10)
+                .unwrap_or("0 : 0")
                 .split(" : ")
                 .nth(1)
                 .parse::<i32>()
