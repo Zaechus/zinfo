@@ -25,7 +25,7 @@ fn main() -> Result<()> {
     let hostname = if let Ok(o) = get_output("hostname", &[]) {
         o
     } else {
-        "hostname"
+        "hostname".to_owned()
     };
 
     let os_name = system.get_os_name();
