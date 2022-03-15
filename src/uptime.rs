@@ -60,6 +60,7 @@ pub fn get_uptime() -> String {
             o.split('\n')
                 .nth(9)
                 .unwrap_or("\u{1b}[0m0")
+                .trim()
                 .split("\u{1b}[0m")
                 .nth(1)
                 .unwrap_or("0")
