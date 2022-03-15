@@ -26,6 +26,6 @@ impl SysInfo {
 
     #[cfg(not(any(target_os = "linux", target_os = "windows")))]
     pub fn whoami(&self) -> String {
-        get_output("whoami", &[]).unwrap_or("user")
+        get_output("whoami", &[]).unwrap_or("user".to_owned())
     }
 }

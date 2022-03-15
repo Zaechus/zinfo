@@ -25,5 +25,5 @@ pub fn get_kver() -> String {
 
 #[cfg(not(any(target_os = "linux", target_os = "windows")))]
 pub fn get_kver() -> String {
-    get_output("uname", &["-r"]).unwrap_or("linux")
+    get_output("uname", &["-r"]).unwrap_or("linux".to_owned())
 }

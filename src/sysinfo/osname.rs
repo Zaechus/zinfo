@@ -25,6 +25,6 @@ impl SysInfo {
 
     #[cfg(not(any(target_os = "linux", target_os = "windows")))]
     pub fn get_os_name(&self) -> String {
-        get_output("uname", &["-o"]).unwrap_or("Linux")
+        get_output("uname", &["-o"]).unwrap_or("Linux".to_owned())
     }
 }
