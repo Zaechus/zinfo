@@ -58,9 +58,9 @@ pub fn get_uptime() -> String {
     if let Ok(o) = get_output("pwsh", &["-Command", "Get-Uptime"]) {
         seconds_to_date(
             o.split('\n')
-                .nth(10)
-                .unwrap_or("0 : 0")
-                .split(" : ")
+                .nth(9)
+                .unwrap_or("\u{1b}[0m0")
+                .split("\u{1b}[0m")
                 .nth(1)
                 .unwrap_or("0")
                 .parse::<i32>()
