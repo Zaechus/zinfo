@@ -17,15 +17,15 @@ pub use sysinfo::SysInfo;
 pub use uptime::get_uptime;
 
 #[cfg(not(target_os = "linux"))]
-pub fn get_output(command: &str, args: &[&str], default: &str) -> String {
+pub fn get_output(command: &str, args: &[&str]) -> Result<String, ()> {
     if let Ok(output) = Command::new(command).args(args).output() {
         if let Ok(s) = String::from_utf8(output.stdout) {
-            s.trim().to_owned()
+            Ok(s.trim().to_owned())
         } else {
-            default.to_owned()
+            Err(())
         }
     } else {
-        default.to_owned()
+        Err(())
     }
 }
 

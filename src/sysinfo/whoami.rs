@@ -16,6 +16,7 @@ impl SysInfo {
     #[cfg(target_os = "windows")]
     pub fn whoami(&self) -> String {
         get_output("cmd", &["/C", "whoami"], "user")
+            .unwrap_or("user")
             .split('\\')
             .rev()
             .next()
@@ -25,6 +26,6 @@ impl SysInfo {
 
     #[cfg(not(any(target_os = "linux", target_os = "windows")))]
     pub fn whoami(&self) -> String {
-        get_output("whoami", &[], "user")
+        get_output("whoami", &[]).unwrap_or("user")
     }
 }

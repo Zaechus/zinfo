@@ -1,6 +1,6 @@
 [package]
 name = "zinfo"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 authors = ["Maxwell Anderson <maxwell.anderson.public@protonmail.com"]
 license = "MIT"

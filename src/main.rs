@@ -22,7 +22,11 @@ fn main() -> Result<()> {
         "hostname".to_owned()
     };
     #[cfg(not(target_os = "linux"))]
-    let hostname = get_output("hostname", &[], "hostname");
+    let hostname = if let Ok(o) = get_output("hostname", &[]) {
+        o
+    } else {
+        "hostname"
+    };
 
     let os_name = system.get_os_name();
 
