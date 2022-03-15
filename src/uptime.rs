@@ -62,6 +62,7 @@ pub fn get_uptime() -> String {
                 .unwrap_or("0 : 0")
                 .split(" : ")
                 .nth(1)
+                .unwrap_or("0")
                 .parse::<i32>()
                 .unwrap_or(0),
         )
