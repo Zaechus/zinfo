@@ -5,7 +5,7 @@ use std::{
 };
 
 #[cfg(target_os = "windows")]
-use crate::get_output;
+use crate::{get_output, io};
 
 #[cfg(not(target_os = "windows"))]
 pub fn get_mem() -> io::Result<String> {
