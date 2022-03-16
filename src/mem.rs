@@ -35,22 +35,26 @@ pub fn get_mem() -> io::Result<String> {
 
 #[cfg(target_os = "windows")]
 pub fn get_mem() -> Result<String, io::Error> {
-    let free = get_output("cmd", &["/C", "wmic os get freephysicalmemory"])?
-        .split('\n')
-        .nth(1)
-        .unwrap_or("0")
-        .parse::<i32>()
-        .unwrap_or(0)
-        * 1000
-        / 1048576;
     let total = get_output("cmd", &["/C", "wmic os get totalvisiblememorysize"])?
         .split('\n')
         .nth(1)
         .unwrap_or("0")
-        .parse::<i32>()
+        .parse::<i64>()
         .unwrap_or(0)
         * 1000
         / 1048576;
 
-    Ok(format!("{}M / {}M", total - free, total))
+    Ok(format!(
+        "{}M / {}M",
+        total
+            - get_output("cmd", &["/C", "wmic os get freephysicalmemory"])?
+                .split('\n')
+                .nth(1)
+                .unwrap_or("0")
+                .parse::<i64>()
+                .unwrap_or(0)
+                * 1000
+                / 1048576,
+        total
+    ))
 }
