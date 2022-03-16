@@ -41,14 +41,16 @@ pub fn get_mem() -> Result<String, io::Error> {
         .unwrap_or("0")
         .parse::<i32>()
         .unwrap_or(0)
-        / 1024;
+        * 1000
+        / 1048576;
     let total = get_output("cmd", &["/C", "wmic os get totalvisiblememorysize"])?
         .split('\n')
         .nth(1)
         .unwrap_or("0")
         .parse::<i32>()
         .unwrap_or(0)
-        / 1024;
+        * 1000
+        / 1048576;
 
     Ok(format!("{}M / {}M", total - free, total))
 }
