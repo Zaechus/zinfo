@@ -4,7 +4,7 @@ version = "0.2.2"
 edition = "2021"
 authors = ["Maxwell Anderson <maxwell.anderson.public@protonmail.com"]
 license = "MIT"
-repository = "https://gitlab.com/Zaechus/zinfo"
+repository = "https://github.com/Zaechus/zinfo"
 description = "A small system information program"
 
 [dependencies]

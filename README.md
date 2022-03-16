@@ -1,6 +1,6 @@
 # zinfo
 
-A small system information program
+A cross-platform system information program
 
 ### Supported Systems
 
