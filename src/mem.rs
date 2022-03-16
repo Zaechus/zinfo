@@ -1,10 +1,11 @@
+#[cfg(not(target_os = "windows"))]
 use std::{
     fs::File,
     io::{self, BufRead, BufReader},
 };
 
 #[cfg(target_os = "windows")]
-use zinfo::get_output;
+use crate::get_output;
 
 #[cfg(not(target_os = "windows"))]
 pub fn get_mem() -> io::Result<String> {
@@ -45,5 +46,5 @@ pub fn get_mem() -> Result<String, ()> {
         .parse::<i32>()?
         / 1024;
 
-    Ok(format("{}M / {}M", total - free, total));
+    Ok(format!("{}M / {}M", total - free, total))
 }
