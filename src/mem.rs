@@ -37,13 +37,17 @@ pub fn get_mem() -> io::Result<String> {
 pub fn get_mem() -> Result<String, ()> {
     let free = get_output("cmd", &["/C", "wmic os get freephysicalmemory"])?
         .split('\n')
-        .nth(1)?
-        .parse::<i32>()?
+        .nth(1)
+        .unwrap_or("0")
+        .parse::<i32>()
+        .unwrap_or(0)
         / 1024;
-    let total = get_output("cmd", &["/C", "wmic os get totalvisiblememory"])
+    let total = get_output("cmd", &["/C", "wmic os get totalvisiblememory"])?
         .split('\n')
-        .nth(1)?
-        .parse::<i32>()?
+        .nth(1)
+        .unwrap_or("0")
+        .parse::<i32>()
+        .unwrap_or(0)
         / 1024;
 
     Ok(format!("{}M / {}M", total - free, total))
