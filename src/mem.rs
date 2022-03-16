@@ -34,7 +34,7 @@ pub fn get_mem() -> io::Result<String> {
 }
 
 #[cfg(target_os = "windows")]
-pub fn get_mem() -> Result<String, ()> {
+pub fn get_mem() -> Result<String, io::Error> {
     let free = get_output("cmd", &["/C", "wmic os get freephysicalmemory"])?
         .split('\n')
         .nth(1)

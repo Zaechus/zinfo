@@ -16,7 +16,7 @@ impl SysInfo {
     #[cfg(target_os = "windows")]
     pub fn whoami(&self) -> String {
         get_output("cmd", &["/C", "whoami"])
-            .unwrap_or("user".to_owned())
+            .unwrap_or_else(|_| "user".to_owned())
             .split('\\')
             .rev()
             .next()
@@ -26,6 +26,6 @@ impl SysInfo {
 
     #[cfg(not(any(target_os = "linux", target_os = "windows")))]
     pub fn whoami(&self) -> String {
-        get_output("whoami", &[]).unwrap_or("user".to_owned())
+        get_output("whoami", &[]).unwrap_or_else(|_| "user".to_owned())
     }
 }

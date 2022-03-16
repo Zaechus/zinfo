@@ -1,5 +1,5 @@
 #[cfg(not(target_os = "linux"))]
-use std::process::Command;
+use std::{io, process::Command};
 
 mod kver;
 mod logo;
@@ -14,14 +14,10 @@ pub use sysinfo::SysInfo;
 pub use uptime::get_uptime;
 
 #[cfg(not(target_os = "linux"))]
-pub fn get_output(command: &str, args: &[&str]) -> Result<String, ()> {
-    if let Ok(output) = Command::new(command).args(args).output() {
-        if let Ok(s) = String::from_utf8(output.stdout) {
-            Ok(s.trim().to_owned())
-        } else {
-            Err(())
-        }
+pub fn get_output(command: &str, args: &[&str]) -> Result<String, io::Error> {
+    if let Ok(s) = String::from_utf8(Command::new(command).args(args).output()?.stdout) {
+        Ok(s.trim().to_owned())
     } else {
-        Err(())
+        Err(io::Error::from(io::ErrorKind::InvalidData))
     }
 }
