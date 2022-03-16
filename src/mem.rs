@@ -42,7 +42,7 @@ pub fn get_mem() -> Result<String, ()> {
         .parse::<i32>()
         .unwrap_or(0)
         / 1024;
-    let total = get_output("cmd", &["/C", "wmic os get totalvisiblememory"])?
+    let total = get_output("cmd", &["/C", "wmic os get totalvisiblememorysize"])?
         .split('\n')
         .nth(1)
         .unwrap_or("0")
