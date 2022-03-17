@@ -38,30 +38,26 @@ pub fn get_mem() -> io::Result<String> {
 #[cfg(target_os = "freebsd")]
 pub fn get_mem() -> io::Result<String> {
     let total = get_output("sysctl", &["-n", "hw.physmem"])?
-        .split_whitespace()
-        .nth(1)
-        .unwrap_or("0")
         .parse::<i64>()
-        .unwrap_or(0)
-        / 1024
-        / 1024;
+        .unwrap_or(0);
 
     let mut used = total;
 
+    let pagesize = get_output("sysctl", &["-n", "hw.pagesize"])?
+        .parse::<i64>()
+        .unwrap_or(0);
     for s in ["cache_count", "free_count", "inactive_count"] {
-        used -= get_output("sysctl", &["-n", &format("vm.stats.vm.v_{}", s)])?
-            .split('\n')
-            .nth(2)
-            .unwrap_or("0")
-            .split_whitespace()
-            .nth(4)
-            .unwrap_or("0")
+        used += get_output("sysctl", &["-n", &format!("vm.stats.vm.v_{}", s)])?
             .parse::<i64>()
             .unwrap_or(0)
-            / 1024;
+            * pagesize;
     }
 
-    Ok(format!("{}M / {}M", used, total))
+    Ok(format!(
+        "{}M / {}M",
+        used / 1024 / 1024,
+        total / 1024 / 1024
+    ))
 }
 
 #[cfg(target_os = "windows")]
