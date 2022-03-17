@@ -2,6 +2,8 @@
 
 ![](assets/zinfo_ss.png)
 
+[![CICD](https://github.com/Zaechus/zinfo/actions/workflows/cicd.yml/badge.svg)](https://github.com/Zaechus/zinfo/actions/workflows/cicd.yml)
+
 A cross-platform system information program
 
 ## Installation
