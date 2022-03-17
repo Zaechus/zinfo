@@ -47,7 +47,7 @@ pub fn get_mem() -> io::Result<String> {
         .parse::<i64>()
         .unwrap_or(0);
     for s in ["cache_count", "free_count", "inactive_count"] {
-        used += get_output("sysctl", &["-n", &format!("vm.stats.vm.v_{}", s)])?
+        used -= get_output("sysctl", &["-n", &format!("vm.stats.vm.v_{}", s)])?
             .parse::<i64>()
             .unwrap_or(0)
             * pagesize;
