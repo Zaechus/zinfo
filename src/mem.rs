@@ -1,11 +1,13 @@
-#[cfg(not(target_os = "windows"))]
+use std::io;
+
+#[cfg(not(any(target_os = "freebsd", target_os = "windows")))]
 use std::{
     fs::File,
-    io::{self, BufRead, BufReader},
+    io::{BufRead, BufReader},
 };
 
-#[cfg(target_os = "windows")]
-use crate::{get_output, io};
+#[cfg(any(target_os = "freebsd", target_os = "windows"))]
+use crate::get_output;
 
 #[cfg(not(any(target_os = "freebsd", target_os = "windows")))]
 pub fn get_mem() -> io::Result<String> {
@@ -35,29 +37,31 @@ pub fn get_mem() -> io::Result<String> {
 
 #[cfg(target_os = "freebsd")]
 pub fn get_mem() -> io::Result<String> {
-    let total = get_output("sysctl", &["hw.physmem"])?
+    let total = get_output("sysctl", &["-n", "hw.physmem"])?
         .split_whitespace()
         .nth(1)
         .unwrap_or("0")
-        .parse::<i32>()
+        .parse::<i64>()
         .unwrap_or(0)
+        / 1024
         / 1024;
 
-    format!(
-        "{}M / {}M",
-        total
-            - get_output("vmstat", &["-H"])?
-                .split('\n')
-                .nth(2)
-                .unwrap_or("0")
-                .split_whitespace()
-                .nth(4)
-                .unwrap_or("0")
-                .parse::<i32>()
-                .unwrap_or(0)
-                / 1024,
-        total
-    )
+    let mut used = total;
+
+    for s in ["cache_count", "free_count", "inactive_count"] {
+        used -= get_output("sysctl", &["-n", &format("vm.stats.vm.v_{}", s)])?
+            .split('\n')
+            .nth(2)
+            .unwrap_or("0")
+            .split_whitespace()
+            .nth(4)
+            .unwrap_or("0")
+            .parse::<i64>()
+            .unwrap_or(0)
+            / 1024;
+    }
+
+    Ok(format!("{}M / {}M", used, total))
 }
 
 #[cfg(target_os = "windows")]
@@ -69,7 +73,8 @@ pub fn get_mem() -> io::Result<String> {
         .parse::<i64>()
         .unwrap_or(0)
         * 1000
-        / 1048576;
+        / 1024
+        / 1024;
 
     Ok(format!(
         "{}M / {}M",
@@ -81,7 +86,8 @@ pub fn get_mem() -> io::Result<String> {
                 .parse::<i64>()
                 .unwrap_or(0)
                 * 1000
-                / 1048576,
+                / 1024
+                / 1024,
         total
     ))
 }
