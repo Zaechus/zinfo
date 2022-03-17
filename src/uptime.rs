@@ -13,10 +13,9 @@ fn seconds_to_date(mut seconds: i32) -> String {
     seconds -= hours * 3600;
 
     let minutes = seconds / 60;
-    seconds -= minutes * 60;
 
     format!(
-        "{}{}{}{}s",
+        "{}{}{}m",
         if days == 0 {
             String::default()
         } else {
@@ -27,38 +26,29 @@ fn seconds_to_date(mut seconds: i32) -> String {
         } else {
             format!("{}h ", hours)
         },
-        if minutes == 0 {
-            String::default()
-        } else {
-            format!("{}m ", minutes)
-        },
-        seconds
+        minutes,
     )
 }
 
 #[cfg(target_os = "linux")]
 pub fn get_uptime() -> String {
-    if let Ok(uptime) = fs::read_to_string("/proc/uptime") {
-        seconds_to_date(
-            uptime
-                .split_whitespace()
-                .next()
-                .unwrap_or("0.0")
-                .to_owned()
-                .parse::<f64>()
-                .unwrap_or(0.0) as i32,
-        )
-    } else {
-        "0 s".to_owned()
-    }
+    seconds_to_date(
+        fs::read_to_string("/proc/uptime")
+            .unwrap_or_default()
+            .split_whitespace()
+            .next()
+            .unwrap_or("0.0")
+            .to_owned()
+            .parse::<f64>()
+            .unwrap_or(0.0) as i32,
+    )
 }
 
 #[cfg(target_os = "windows")]
 pub fn get_uptime() -> String {
-    if let Ok(o) = get_output("pwsh", &["-Command", "Get-Uptime"]) {
+    if let Ok(o) = get_output("pwsh", &["-Command", "Get-Uptime"]).split('\n') {
         seconds_to_date(
-            o.split('\n')
-                .nth(9)
+            o.nth(9)
                 .unwrap_or("\u{1b}[0m0")
                 .trim()
                 .split("\u{1b}[0m")
@@ -85,6 +75,8 @@ pub fn get_uptime() -> String {
 
         let (hours, minutes) = if o.contains("min") {
             (None, uptime.nth(2))
+        } else if o.contains("sec") {
+            (None, None)
         } else {
             let mut time = uptime
                 .nth(time_index)
