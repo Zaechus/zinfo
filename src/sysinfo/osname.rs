@@ -1,12 +1,21 @@
 use crate::SysInfo;
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
 use crate::get_output;
 
 impl SysInfo {
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     pub fn get_os_name(&self) -> String {
         self.get_os_info("PRETTY_NAME")
+    }
+
+    #[cfg(target_os = "android")]
+    pub fn get_os_name(&self) -> String {
+        format(
+            "{} {}",
+            get_output("uname", &["-o"]).unwrap_or_else(|_| "Android".to_owned()),
+            get_output("getprop", &["ro.build.version.release"]).unwrap_or_else(|_| String::new()),
+        )
     }
 
     #[cfg(target_os = "windows")]
@@ -23,8 +32,13 @@ impl SysInfo {
         }
     }
 
-    #[cfg(not(any(target_os = "linux", target_os = "windows")))]
+    #[cfg(not(any(
+        target_os = "linux",
+        target_os = "freebsd",
+        target_os = "android",
+        target_os = "windows"
+    )))]
     pub fn get_os_name(&self) -> String {
-        get_output("uname", &["-o"]).unwrap_or_else(|_| "Linux".to_owned())
+        get_output("uname", &["-o"]).unwrap_or_else(|_| "Name".to_owned())
     }
 }

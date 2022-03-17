@@ -127,6 +127,18 @@ pub fn logo(os_id: &str) -> (Vec<&str>, Color) {
                 .collect(),
             Color::Green,
         ),
+        "freebsd" => (
+            r#"
+          
+-.,____,.-
+\/    ', /
+|       `|
+`,      ,'
+  `----`  "#
+                .split('\n')
+                .collect(),
+            Color::Red,
+        ),
         "Android" => (
             r#"
           

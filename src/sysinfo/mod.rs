@@ -35,22 +35,22 @@ impl SysInfo {
         &self.envvars
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     pub fn os_release(&self) -> &str {
         &self.os_release
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     pub fn get_os_info(&self, key: &str) -> String {
-        if let Some(pretty_name) = self
+        if let Some(k) = self
             .os_release()
             .split('\n')
             .map(|line| line.split('=').collect::<Vec<_>>())
             .find(|line| line[0] == key)
         {
-            pretty_name[1].trim_matches('"').to_owned()
+            k[1].trim_matches('"').to_owned()
         } else {
-            "Linux".to_owned()
+            "Unix".to_owned()
         }
     }
 }

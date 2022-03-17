@@ -23,6 +23,7 @@ zinfo OS_ID
 ## Supported Systems
 
 - [![Android](https://img.shields.io/badge/OS-Android-3ddc84?logo=Android)](https://www.android.com/)
+- [![FreeBSD](https://img.shields.io/badge/OS-FreeBSD-darkred?logo=FreeBSD)](https://www.freebsd.org/)
 - [![Linux](https://img.shields.io/badge/OS-Linux-yellow?logo=Linux)](https://kernel.org/)
     - [![Alpine Linux](https://img.shields.io/badge/OS-Alpine%20Linux-0d597f?logo=Alpine+Linux)](https://www.alpinelinux.org/)
     - [![Arch Linux](https://img.shields.io/badge/OS-Arch%20Linux-blue?logo=Arch+Linux)](https://archlinux.org/)
