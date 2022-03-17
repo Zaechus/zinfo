@@ -46,9 +46,10 @@ pub fn get_uptime() -> String {
 
 #[cfg(target_os = "windows")]
 pub fn get_uptime() -> String {
-    if let Ok(o) = get_output("pwsh", &["-Command", "Get-Uptime"]).split('\n') {
+    if let Ok(o) = get_output("pwsh", &["-Command", "Get-Uptime"]) {
         seconds_to_date(
-            o.nth(9)
+            o.split('\n')
+                .nth(9)
                 .unwrap_or("\u{1b}[0m0")
                 .trim()
                 .split("\u{1b}[0m")

@@ -14,7 +14,7 @@ pub use sysinfo::SysInfo;
 pub use uptime::get_uptime;
 
 #[cfg(not(target_os = "linux"))]
-pub fn get_output(command: &str, args: &[&str]) -> Result<String, io::Error> {
+pub fn get_output(command: &str, args: &[&str]) -> io::Result<String> {
     if let Ok(s) = String::from_utf8(Command::new(command).args(args).output()?.stdout) {
         Ok(s.trim().to_owned())
     } else {
