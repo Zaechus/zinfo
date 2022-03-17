@@ -84,7 +84,7 @@ pub fn get_uptime() -> String {
         };
 
         let (hours, minutes) = if o.contains("min") {
-            (0, uptime.nth(2).unwrap_or("0:00"))
+            (None, uptime.nth(2))
         } else {
             let mut time = uptime
                 .nth(time_index)
