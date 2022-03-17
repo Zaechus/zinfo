@@ -43,7 +43,7 @@ fn main() -> Result<()> {
         os_name
             .split_whitespace()
             .next()
-            .unwrap_or(os_name)
+            .unwrap_or(&os_name)
             .to_owned()
     };
 

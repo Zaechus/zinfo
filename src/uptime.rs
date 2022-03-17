@@ -74,35 +74,34 @@ pub fn get_uptime() -> String {
 
 #[cfg(not(any(target_os = "linux", target_os = "windows")))]
 pub fn get_uptime() -> String {
-    if let Ok(o) = get_output("uptime", &["-p"]) {
-        let uptime: Vec<_> = o.split_whitespace().rev().map(str::to_owned).collect();
+    if let Ok(o) = get_output("uptime", &[]) {
+        let mut uptime = o.split_whitespace();
 
-        let mut minutes = 0;
-        let mut hours = 0;
-        let mut days = 0;
+        let (days, time_index) = if o.contains("day") {
+            (Some(uptime.nth(2)), 4)
+        } else {
+            (None, 2)
+        };
 
-        for pair in uptime.chunks(2).filter(|c| c.len() == 2) {
-            match pair[0].as_str() {
-                "minutes" => minutes = pair[1].parse().unwrap_or(0),
-                "hours," => hours = pair[1].parse().unwrap_or(0),
-                "days," => days = pair[1].parse().unwrap_or(0),
-                _ => (),
-            }
-        }
+        let mut time = uptime
+            .nth(time_index)
+            .unwrap_or("0:00")
+            .trim_matches(',')
+            .split(':');
 
         format!(
             "{}{}{}m",
-            if days == 0 {
-                String::default()
+            if let Some(Some(d)) = days {
+                format!("{}d ", d)
             } else {
-                format!("{}d ", days)
+                String::default()
             },
-            if hours == 0 {
-                String::default()
-            } else {
+            if let Some(hours) = time.next() {
                 format!("{}h ", hours)
+            } else {
+                String::default()
             },
-            minutes
+            time.next().unwrap_or("0")
         )
     } else {
         "0m".to_owned()

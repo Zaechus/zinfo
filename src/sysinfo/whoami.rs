@@ -1,10 +1,10 @@
 use crate::SysInfo;
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
 use crate::get_output;
 
 impl SysInfo {
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     pub fn whoami(&self) -> &str {
         if let Some(var) = self.envvars().get("USER") {
             var
@@ -24,7 +24,7 @@ impl SysInfo {
             .to_owned()
     }
 
-    #[cfg(not(any(target_os = "linux", target_os = "windows")))]
+    #[cfg(not(any(target_os = "linux", target_os = "freebsd", target_os = "windows")))]
     pub fn whoami(&self) -> String {
         get_output("whoami", &[]).unwrap_or_else(|_| "user".to_owned())
     }
