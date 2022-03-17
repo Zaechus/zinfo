@@ -30,17 +30,20 @@ fn main() -> Result<()> {
 
     let os_name = system.get_os_name();
 
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     let os_id = if let Some(arg) = args.get(1) {
         arg.to_owned()
     } else {
         system.get_os_info("ID")
     };
-    #[cfg(not(target_os = "linux"))]
+    #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
     let os_id = if let Some(arg) = args.get(1) {
         arg.to_owned()
     } else {
-        os_name.clone()
+        os_name
+            .split_whitespace()
+            .next()
+            .unwrap_or(os.namme.to_owned())
     };
 
     let logo = logo(&os_id);

@@ -149,7 +149,7 @@ pub fn logo(os_id: &str) -> (Vec<&str>, Color) {
                 .collect(),
             Color::Green,
         ),
-        "Windows" | "Windows 10 Home" => (
+        "Windows" => (
             r#"
           
   ... ... 
