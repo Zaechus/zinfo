@@ -169,7 +169,7 @@ pub fn logo(os_id: &str) -> (Vec<&str>, Color) {
   ####### "#
                 .split('\n')
                 .collect(),
-            Color::White,
+            Color::Yellow,
         ),
     }
 }
