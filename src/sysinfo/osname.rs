@@ -11,7 +11,7 @@ impl SysInfo {
 
     #[cfg(target_os = "android")]
     pub fn get_os_name(&self) -> String {
-        format(
+        format!(
             "{} {}",
             get_output("uname", &["-o"]).unwrap_or_else(|_| "Android".to_owned()),
             get_output("getprop", &["ro.build.version.release"]).unwrap_or_else(|_| String::new()),

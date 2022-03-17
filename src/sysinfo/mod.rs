@@ -11,7 +11,7 @@ mod whoami;
 pub struct SysInfo {
     #[cfg(not(target_os = "windows"))]
     envvars: HashMap<String, String>,
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     os_release: String,
 }
 
