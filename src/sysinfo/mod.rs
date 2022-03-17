@@ -21,7 +21,7 @@ impl SysInfo {
             #[cfg(not(target_os = "windows"))]
             envvars: env::vars().collect(),
 
-            #[cfg(target_os = "linux")]
+            #[cfg(any(target_os = "linux", target_os = "freebsd"))]
             os_release: if let Ok(s) = fs::read_to_string("/etc/os-release") {
                 s
             } else {
