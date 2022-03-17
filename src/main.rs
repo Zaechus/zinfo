@@ -43,7 +43,7 @@ fn main() -> Result<()> {
         os_name
             .split_whitespace()
             .next()
-            .unwrap_or(os.namme.to_owned())
+            .unwrap_or(os_name.to_owned())
     };
 
     let logo = logo(&os_id);
