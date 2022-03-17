@@ -2,7 +2,7 @@
 
 ![](assets/zinfo_ss.png)
 
-[![CICD](https://github.com/Zaechus/zinfo/actions/workflows/cicd.yml/badge.svg)](https://github.com/Zaechus/zinfo/actions/workflows/cicd.yml)
+[![CI](https://github.com/Zaechus/zinfo/actions/workflows/ci.yml/badge.svg)](https://github.com/Zaechus/zinfo/actions/workflows/ci.yml)
 
 A cross-platform system information program
 
