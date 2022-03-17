@@ -77,13 +77,22 @@ pub fn get_uptime() -> String {
     if let Ok(o) = get_output("uptime", &[]) {
         let mut uptime = o.split_whitespace();
 
-        let days = if o.contains("day") {
-            Some(uptime.nth(2))
+        let (days, time_index) = if o.contains("day") {
+            (Some(uptime.nth(2)), 1)
         } else {
-            None
+            (None, 2)
         };
 
-        let mut time = uptime.nth(2).unwrap_or("0:00").trim_matches(',').split(':');
+        let (hours, minutes) = if o.contains("min") {
+            (0, uptime.nth(2).unwrap_or("0:00"))
+        } else {
+            let mut time = uptime
+                .nth(time_index)
+                .unwrap_or("0:00")
+                .trim_matches(',')
+                .split(':');
+            (time.next(), time.next())
+        };
 
         format!(
             "{}{}{}m",
@@ -92,12 +101,12 @@ pub fn get_uptime() -> String {
             } else {
                 String::default()
             },
-            if let Some(hours) = time.next() {
+            if let Some(hours) = hours {
                 format!("{}h ", hours)
             } else {
                 String::default()
             },
-            time.next().unwrap_or("0")
+            minutes.unwrap_or("0").parse::<i32>().unwrap_or(0)
         )
     } else {
         "0m".to_owned()
