@@ -77,17 +77,13 @@ pub fn get_uptime() -> String {
     if let Ok(o) = get_output("uptime", &[]) {
         let mut uptime = o.split_whitespace();
 
-        let (days, time_index) = if o.contains("day") {
-            (Some(uptime.nth(2)), 4)
+        let days = if o.contains("day") {
+            Some(uptime.nth(2))
         } else {
-            (None, 2)
+            None
         };
 
-        let mut time = uptime
-            .nth(time_index)
-            .unwrap_or("0:00")
-            .trim_matches(',')
-            .split(':');
+        let mut time = uptime.nth(2).unwrap_or("0:00").trim_matches(',').split(':');
 
         format!(
             "{}{}{}m",
