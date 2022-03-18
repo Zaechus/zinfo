@@ -6,6 +6,7 @@ authors = ["Maxwell Anderson <maxwell.anderson.public@protonmail.com"]
 license = "MIT"
 repository = "https://github.com/Zaechus/zinfo"
 description = "A small system information program"
+exclude = [".github"]
 
 [dependencies]
 crossterm = "0.23"
