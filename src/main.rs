@@ -32,13 +32,13 @@ fn main() -> Result<()> {
 
     #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     let os_id = if let Some(arg) = args.get(1) {
-        arg.to_owned()
+        arg.to_lowercase()
     } else {
         system.get_os_info("ID")
     };
     #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
     let os_id = if let Some(arg) = args.get(1) {
-        arg.to_owned()
+        arg.to_lowercase()
     } else {
         os_name
             .split_whitespace()
