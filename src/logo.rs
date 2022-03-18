@@ -139,7 +139,7 @@ pub fn logo(os_id: &str) -> (Vec<&str>, Color) {
                 .collect(),
             Color::Red,
         ),
-        "Android" => (
+        "android" => (
             r#"
           
   \_____/ 
@@ -149,7 +149,7 @@ pub fn logo(os_id: &str) -> (Vec<&str>, Color) {
                 .collect(),
             Color::Green,
         ),
-        "Windows" => (
+        "windows" => (
             r#"
           
   ... ... 
