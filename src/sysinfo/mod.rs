@@ -12,7 +12,7 @@ pub struct SysInfo {
     #[cfg(not(target_os = "windows"))]
     envvars: HashMap<String, String>,
     #[cfg(any(target_os = "linux", target_os = "freebsd"))]
-    os_release: String,
+    os_release: Vec<Vec<String>>,
 }
 
 impl SysInfo {
@@ -25,8 +25,11 @@ impl SysInfo {
             os_release: if let Ok(s) = fs::read_to_string("/etc/os-release") {
                 s
             } else {
-                "ID=linux\nPRETTYNAME=\"Linux\"".to_owned()
-            },
+                "ID=unix\nPRETTYNAME=\"Unix\"".to_owned()
+            }
+            .split('\n')
+            .map(|line| line.split('=').map(str::to_owned).collect::<Vec<String>>())
+            .collect(),
         }
     }
 
@@ -36,18 +39,13 @@ impl SysInfo {
     }
 
     #[cfg(any(target_os = "linux", target_os = "freebsd"))]
-    pub fn os_release(&self) -> &str {
+    pub fn os_release(&self) -> &Vec<Vec<String>> {
         &self.os_release
     }
 
     #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     pub fn get_os_info(&self, key: &str) -> String {
-        if let Some(k) = self
-            .os_release()
-            .split('\n')
-            .map(|line| line.split('=').collect::<Vec<_>>())
-            .find(|line| line[0] == key)
-        {
+        if let Some(k) = self.os_release().iter().find(|line| line[0] == key) {
             k[1].trim_matches('"').to_owned()
         } else {
             "Unix".to_owned()
