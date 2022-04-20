@@ -2,7 +2,6 @@
 
 ![](assets/zinfo_ss.png)
 
-[![CI](https://github.com/Zaechus/zinfo/actions/workflows/ci.yml/badge.svg)](https://github.com/Zaechus/zinfo/actions/workflows/ci.yml)
 [![crates.io](https://img.shields.io/crates/v/zinfo)](https://crates.io/crates/zinfo)
 
 A cross-platform system information program
