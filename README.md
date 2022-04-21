@@ -1,5 +1,6 @@
 # zinfo
 
+![](assets/zinfo_ss_gentoo.png)
 ![](assets/zinfo_ss.png)
 
 [![crates.io](https://img.shields.io/crates/v/zinfo)](https://crates.io/crates/zinfo)
