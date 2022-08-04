@@ -15,8 +15,9 @@ pub fn get_mem() -> io::Result<String> {
     let mut total = 0;
 
     for line in BufReader::new(File::open("/proc/meminfo")?).lines() {
-        let l: Vec<String> = line?.split_whitespace().map(str::to_owned).collect();
-        match l[0].as_str() {
+        let line = line?;
+        let l: Vec<_> = line.split_whitespace().collect();
+        match l[0] {
             "MemTotal:" => {
                 total = l[1].parse::<i32>().unwrap_or(0);
                 used = total;
