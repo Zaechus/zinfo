@@ -18,8 +18,7 @@ impl SysInfo {
         get_output("cmd", &["/C", "whoami"])
             .unwrap_or_else(|_| "user".to_owned())
             .split('\\')
-            .rev()
-            .next()
+            .last()
             .unwrap_or("user")
             .to_owned()
     }

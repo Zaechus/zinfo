@@ -21,7 +21,7 @@ impl SysInfo {
     #[cfg(target_os = "windows")]
     pub fn get_os_name(&self) -> String {
         if let Ok(o) = get_output("cmd", &["/C", "wmic os get Caption"]) {
-            o.split('\n')
+            o.lines()
                 .nth(1)
                 .unwrap_or("Microsoft Windows")
                 .chars()

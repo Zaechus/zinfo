@@ -32,7 +32,7 @@ fn main() -> crossterm::Result<()> {
 
     let (logo, logo_color) = logo(&os_id);
 
-    let info = [
+    [
         format!(
             "{}@{}",
             style(system.whoami())
@@ -51,17 +51,18 @@ fn main() -> crossterm::Result<()> {
         } else {
             "0M / 0M".to_owned()
         },
-    ];
-
-    for (x, item) in info.iter().enumerate() {
+    ]
+    .iter()
+    .enumerate()
+    .for_each(|(x, item)| {
         println!(
             "{}  {}",
-            style(logo.get(x + 1).unwrap_or(&"          "))
+            style(logo.get(x).unwrap_or(&"          "))
                 .with(logo_color)
                 .attribute(Attribute::Bold),
             item
         )
-    }
+    });
 
     stdout().execute(ResetColor)?;
 

@@ -7,7 +7,7 @@ use crate::get_output;
 #[cfg(target_os = "linux")]
 pub fn get_kver() -> String {
     if let Ok(ver) = fs::read_to_string("/proc/version") {
-        ver.split(' ').nth(2).unwrap_or("linux").to_owned()
+        ver.split_whitespace().nth(2).unwrap_or("linux").to_owned()
     } else {
         "linux".to_owned()
     }
@@ -22,7 +22,7 @@ pub fn get_kver() -> String {
 pub fn get_kver() -> String {
     get_output("cmd", &["/C", "wmic os get Version"])
         .unwrap_or_else(|_| "NT".to_owned())
-        .split('\n')
+        .lines()
         .nth(1)
         .unwrap_or("NT")
         .to_owned()

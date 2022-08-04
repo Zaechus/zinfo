@@ -2,18 +2,41 @@
 mod tests {
     #[test]
     fn still_works() {
-        let testing = String::from_utf8(
-            std::process::Command::new("./target/debug/zinfo")
-                .output()
-                .unwrap()
-                .stdout,
-        )
-        .unwrap();
-        let installed =
-            String::from_utf8(std::process::Command::new("zinfo").output().unwrap().stdout)
-                .unwrap();
+        for distro in [
+            "alpine",
+            "arch",
+            "artix",
+            "debian",
+            "fedora",
+            "gentoo",
+            "nixos",
+            "opensuse-leap",
+            "opensuse-tumbleweed",
+            "ubuntu",
+            "void",
+            "freebsd",
+            "android",
+            "windows",
+            "zinfo",
+        ] {
+            let testing = String::from_utf8(
+                std::process::Command::new("./target/debug/zinfo")
+                    .arg(distro)
+                    .output()
+                    .unwrap()
+                    .stdout,
+            )
+            .unwrap();
+            let installed = String::from_utf8(
+                std::process::Command::new("zinfo")
+                    .arg(distro)
+                    .output()
+                    .unwrap()
+                    .stdout,
+            )
+            .unwrap();
 
-        assert_eq!(testing, installed);
-        assert_ne!(testing, "");
+            assert_eq!(testing, installed);
+        }
     }
 }

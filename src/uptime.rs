@@ -48,7 +48,7 @@ pub fn get_uptime() -> String {
 pub fn get_uptime() -> String {
     if let Ok(o) = get_output("pwsh", &["-Command", "Get-Uptime"]) {
         seconds_to_date(
-            o.split('\n')
+            o.lines()
                 .nth(9)
                 .unwrap_or("\u{1b}[0m0")
                 .trim()
