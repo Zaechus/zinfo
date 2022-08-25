@@ -9,7 +9,7 @@ description = "A small system information program"
 exclude = [".github", "assets", "justfile", "shell.nix"]
 
 [dependencies]
-crossterm = "0.24"
+crossterm = "0.25"
 
 [profile.release]
 strip = true

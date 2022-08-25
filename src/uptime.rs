@@ -6,28 +6,32 @@ use crate::get_output;
 
 #[cfg(any(target_os = "linux", target_os = "windows"))]
 fn seconds_to_date(mut seconds: i32) -> String {
-    let days = seconds / 86400;
-    seconds -= days * 86400;
+    if seconds < 60 {
+        format!("{}s", seconds)
+    } else {
+        let days = seconds / 86400;
+        seconds -= days * 86400;
 
-    let hours = seconds / 3600;
-    seconds -= hours * 3600;
+        let hours = seconds / 3600;
+        seconds -= hours * 3600;
 
-    let minutes = seconds / 60;
+        let minutes = seconds / 60;
 
-    format!(
-        "{}{}{}m",
-        if days == 0 {
-            String::default()
-        } else {
-            format!("{}d ", days)
-        },
-        if hours == 0 {
-            String::default()
-        } else {
-            format!("{}h ", hours)
-        },
-        minutes,
-    )
+        format!(
+            "{}{}{}m",
+            if days == 0 {
+                String::default()
+            } else {
+                format!("{}d ", days)
+            },
+            if hours == 0 {
+                String::default()
+            } else {
+                format!("{}h ", hours)
+            },
+            minutes,
+        )
+    }
 }
 
 #[cfg(target_os = "linux")]
