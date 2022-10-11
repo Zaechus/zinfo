@@ -1,7 +1,7 @@
 # zinfo
 
-![](assets/gentoo.png)
-![](assets/nixos.png)
+![](https://user-images.githubusercontent.com/19353212/195171625-9c147122-5808-42d3-85e7-5777643de41c.png)
+![](https://user-images.githubusercontent.com/19353212/195171652-c3098080-9977-4590-9e36-e4692ad10222.png)
 
 [![crates.io](https://img.shields.io/crates/v/zinfo)](https://crates.io/crates/zinfo)
 
