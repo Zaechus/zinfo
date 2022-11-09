@@ -2,11 +2,11 @@
 name = "zinfo"
 version = "0.2.5"
 edition = "2021"
-authors = ["Maxwell Anderson <maxwell.anderson.public@protonmail.com"]
+authors = ["Maxwell Anderson <zaechus@proton.me>"]
 license = "MIT"
 repository = "https://github.com/Zaechus/zinfo"
 description = "A small system information program"
-exclude = [".github", "assets", "justfile", "shell.nix"]
+exclude = ["assets", "justfile"]
 
 [dependencies]
 crossterm = "0.25"
