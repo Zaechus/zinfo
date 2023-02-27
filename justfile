@@ -1,10 +1,6 @@
 run:
     cargo run --release
 
-t:
-    cargo t
-    cargo clippy
-
 x:
     cargo clippy
     cargo clippy --target aarch64-linux-android

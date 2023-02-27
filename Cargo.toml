@@ -1,15 +1,16 @@
 [package]
 name = "zinfo"
-version = "0.2.5"
+version = "0.2.6"
 edition = "2021"
 authors = ["Maxwell Anderson <zaechus@proton.me>"]
 license = "MIT"
 repository = "https://github.com/Zaechus/zinfo"
-description = "A small system information program"
-exclude = ["assets", "justfile"]
+description = "A cross-platform system information program"
+exclude = ["justfile"]
 
 [dependencies]
-crossterm = "0.25"
+crossterm = "0.26"
 
 [profile.release]
+panic = "abort"
 strip = true
