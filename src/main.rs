@@ -9,25 +9,11 @@ use crossterm::{
 use zinfo::*;
 
 fn main() -> crossterm::Result<()> {
-    let system = SysInfo::new();
-
-    let os_name = system.get_os_name();
-
-    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+    let (os_id, os_name) = get_os()?;
     let os_id = if let Some(arg) = env::args().nth(1) {
         arg.to_lowercase()
     } else {
-        system.get_os_info("ID")
-    };
-    #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
-    let os_id = if let Some(arg) = env::args().nth(1) {
-        arg.to_lowercase()
-    } else {
-        os_name
-            .split_whitespace()
-            .next()
-            .unwrap_or(&os_name)
-            .to_lowercase()
+        os_id
     };
 
     let (logo, logo_color) = logo(&os_id);
@@ -35,17 +21,15 @@ fn main() -> crossterm::Result<()> {
     [
         format!(
             "{}@{}",
-            style(system.whoami())
-                .with(logo_color)
-                .attribute(Attribute::Bold),
-            style(get_hostname())
+            style(whoami()).with(logo_color).attribute(Attribute::Bold),
+            style(hostname())
                 .with(logo_color)
                 .attribute(Attribute::Bold)
         ),
         format!("{}{}", style("os    ").with(logo_color), os_name),
         format!("{}{}", style("kver  ").with(logo_color), get_kver()),
-        format!("{}{}", style("up    ").with(logo_color), get_uptime()),
-        format!("{}{}", style("sh    ").with(logo_color), system.get_shell()),
+        format!("{}{}", style("up    ").with(logo_color), uptime()),
+        format!("{}{}", style("sh    ").with(logo_color), get_shell()),
         if let Ok(m) = get_mem() {
             format!("{}{}", style("mem   ").with(logo_color), m)
         } else {

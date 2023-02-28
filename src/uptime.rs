@@ -35,7 +35,7 @@ fn seconds_to_date(mut seconds: i32) -> String {
 }
 
 #[cfg(target_os = "linux")]
-pub fn get_uptime() -> String {
+pub fn uptime() -> String {
     seconds_to_date(
         fs::read_to_string("/proc/uptime")
             .unwrap_or_default()
@@ -49,7 +49,7 @@ pub fn get_uptime() -> String {
 }
 
 #[cfg(target_os = "windows")]
-pub fn get_uptime() -> String {
+pub fn uptime() -> String {
     if let Ok(o) = get_output("pwsh", &["-Command", "Get-Uptime"]) {
         seconds_to_date(
             o.lines()
@@ -68,7 +68,7 @@ pub fn get_uptime() -> String {
 }
 
 #[cfg(not(any(target_os = "linux", target_os = "windows")))]
-pub fn get_uptime() -> String {
+pub fn uptime() -> String {
     if let Ok(o) = get_output("uptime", &[]) {
         let mut uptime = o.split_whitespace();
 

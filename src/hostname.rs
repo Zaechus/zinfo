@@ -5,7 +5,7 @@ use std::fs;
 use crate::get_output;
 
 #[cfg(target_os = "linux")]
-pub fn get_hostname() -> String {
+pub fn hostname() -> String {
     if let Ok(s) = fs::read_to_string("/etc/hostname") {
         s.trim().to_owned()
     } else {
@@ -14,7 +14,7 @@ pub fn get_hostname() -> String {
 }
 
 #[cfg(not(target_os = "linux"))]
-pub fn get_hostname() -> String {
+pub fn hostname() -> String {
     if let Ok(o) = get_output("hostname", &[]) {
         o
     } else {

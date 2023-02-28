@@ -20,7 +20,7 @@ zinfo
 ```
 or
 ```
-zinfo OS_ID
+zinfo OS_RELEASE_ID
 ```
 
 ## Supported Systems

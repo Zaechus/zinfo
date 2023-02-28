@@ -16,17 +16,17 @@ pub fn get_mem() -> io::Result<String> {
 
     for line in BufReader::new(File::open("/proc/meminfo")?).lines() {
         let line = line?;
-        let l: Vec<_> = line.split_whitespace().collect();
-        match l[0] {
+        let line: Vec<_> = line.split_whitespace().collect();
+        match line[0] {
             "MemTotal:" => {
-                total = l[1].parse::<i32>().unwrap_or(0);
+                total = line[1].parse::<i32>().unwrap_or(0);
                 used = total;
             }
             "MemFree:" | "Buffers:" | "Cached:" => {
-                used -= l[1].parse::<i32>().unwrap_or(0);
+                used -= line[1].parse::<i32>().unwrap_or(0);
             }
             "SReclaimable:" => {
-                used -= l[1].parse::<i32>().unwrap_or(0);
+                used -= line[1].parse::<i32>().unwrap_or(0);
                 break;
             }
             _ => (),
