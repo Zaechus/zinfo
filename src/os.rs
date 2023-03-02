@@ -20,7 +20,10 @@ pub fn get_os() -> io::Result<(String, String)> {
 
         match line[0] {
             "ID" => id = line[1].trim_matches('"').to_owned(),
-            "PRETTY_NAME" => name = line[1].trim_matches('"').to_owned(),
+            "PRETTY_NAME" => {
+                name = line[1].trim_matches('"').to_owned();
+                break;
+            }
             _ => (),
         }
     }
