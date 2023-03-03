@@ -25,6 +25,9 @@ pub fn get_mem() -> io::Result<String> {
             "MemFree:" | "Buffers:" | "Cached:" => {
                 used -= line[1].parse::<i32>().unwrap_or(0);
             }
+            "Shmem:" => {
+                used += line[1].parse::<i32>().unwrap_or(0);
+            }
             "SReclaimable:" => {
                 used -= line[1].parse::<i32>().unwrap_or(0);
                 break;

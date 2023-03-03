@@ -19,16 +19,16 @@ mod tests {
             "windows",
             "zinfo",
         ] {
-            let testing = String::from_utf8(
-                std::process::Command::new("./target/debug/zinfo")
+            let installed = String::from_utf8(
+                std::process::Command::new("zinfo")
                     .arg(distro)
                     .output()
                     .unwrap()
                     .stdout,
             )
             .unwrap();
-            let installed = String::from_utf8(
-                std::process::Command::new("zinfo")
+            let testing = String::from_utf8(
+                std::process::Command::new("./target/debug/zinfo")
                     .arg(distro)
                     .output()
                     .unwrap()
