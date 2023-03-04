@@ -11,8 +11,9 @@ use crate::get_output;
 
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]
 pub fn get_os() -> io::Result<(String, String)> {
-    let mut id = "unix".to_owned();
+    let mut id = String::new();
     let mut name = "Unix".to_owned();
+    let mut version_id = String::new();
 
     for line in BufReader::new(File::open("/etc/os-release")?).lines() {
         let line = line?;
@@ -20,15 +21,16 @@ pub fn get_os() -> io::Result<(String, String)> {
 
         match line[0] {
             "ID" => id = line[1].trim_matches('"').to_owned(),
-            "PRETTY_NAME" => {
-                name = line[1].trim_matches('"').to_owned();
+            "NAME" => name = line[1].trim_matches('"').to_owned(),
+            "VERSION_ID" => {
+                version_id = line[1].trim_matches('"').to_owned();
                 break;
             }
             _ => (),
         }
     }
 
-    Ok((id, name))
+    Ok((id, format!("{} {}", name, version_id)))
 }
 
 #[cfg(target_os = "android")]
