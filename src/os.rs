@@ -22,10 +22,7 @@ pub fn get_os() -> io::Result<(String, String)> {
         match line[0] {
             "ID" => id = line[1].trim_matches('"').to_owned(),
             "NAME" => name = line[1].trim_matches('"').to_owned(),
-            "VERSION_ID" => {
-                version_id = line[1].trim_matches('"').to_owned();
-                break;
-            }
+            "VERSION_ID" => version_id = line[1].trim_matches('"').to_owned(),
             _ => (),
         }
     }
