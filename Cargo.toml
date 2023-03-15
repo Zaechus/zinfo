@@ -1,12 +1,13 @@
 [package]
 name = "zinfo"
 version = "0.3.0"
+authors = ["Maxwell Anderson <zaechus@pm.me>"]
 edition = "2021"
-authors = ["Maxwell Anderson <zaechus@proton.me>"]
-license = "MIT"
-repository = "https://github.com/Zaechus/zinfo"
+
 description = "A cross-platform system information program"
-exclude = ["justfile", ".github"]
+repository = "https://github.com/Zaechus/zinfo"
+license = "MIT"
+exclude = [".github", "justfile"]
 
 [dependencies]
 crossterm = "0.26"
