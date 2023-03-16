@@ -1,7 +1,7 @@
 # zinfo
 
 ![](https://user-images.githubusercontent.com/19353212/195171625-9c147122-5808-42d3-85e7-5777643de41c.png)
-![](https://user-images.githubusercontent.com/19353212/195171652-c3098080-9977-4590-9e36-e4692ad10222.png)
+![](https://user-images.githubusercontent.com/19353212/225760243-94723575-a638-4231-822b-be71ee1934e7.png)
 
 [![CI](https://github.com/Zaechus/zinfo/actions/workflows/ci.yml/badge.svg)](https://github.com/Zaechus/zinfo/actions/workflows/ci.yml)
 [![crates.io](https://img.shields.io/crates/v/zinfo)](https://crates.io/crates/zinfo)
