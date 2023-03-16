@@ -42,7 +42,7 @@ pub fn get_os() -> io::Result<(String, String)> {
     ))
 }
 
-#[cfg(target_os = "windows")]
+#[cfg(windows)]
 pub fn get_os() -> io::Result<(String, String)> {
     Ok((
         "windows".to_owned(),
@@ -63,7 +63,7 @@ pub fn get_os() -> io::Result<(String, String)> {
     target_os = "linux",
     target_os = "freebsd",
     target_os = "android",
-    target_os = "windows"
+    windows
 )))]
 pub fn get_os() -> io::Result<(String, String)> {
     Ok((

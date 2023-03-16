@@ -1,15 +1,15 @@
 use std::io;
 
-#[cfg(not(any(target_os = "freebsd", target_os = "windows")))]
+#[cfg(not(any(target_os = "freebsd", windows)))]
 use std::{
     fs::File,
     io::{BufRead, BufReader},
 };
 
-#[cfg(any(target_os = "freebsd", target_os = "windows"))]
+#[cfg(any(target_os = "freebsd", windows))]
 use crate::get_output;
 
-#[cfg(not(any(target_os = "freebsd", target_os = "windows")))]
+#[cfg(not(any(target_os = "freebsd", windows)))]
 pub fn get_mem() -> io::Result<String> {
     let mut used = 0;
     let mut total = 0;
@@ -64,7 +64,7 @@ pub fn get_mem() -> io::Result<String> {
     ))
 }
 
-#[cfg(target_os = "windows")]
+#[cfg(windows)]
 pub fn get_mem() -> io::Result<String> {
     let total = get_output("cmd", &["/C", "wmic os get totalvisiblememorysize"])?
         .split('\n')

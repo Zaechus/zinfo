@@ -13,7 +13,7 @@ pub fn whoami() -> String {
     }
 }
 
-#[cfg(target_os = "windows")]
+#[cfg(windows)]
 pub fn whoami() -> String {
     get_output("cmd", &["/C", "whoami"])
         .unwrap_or_else(|_| "user".to_owned())
@@ -23,7 +23,7 @@ pub fn whoami() -> String {
         .to_owned()
 }
 
-#[cfg(not(any(target_os = "linux", target_os = "freebsd", target_os = "windows")))]
+#[cfg(not(any(target_os = "linux", target_os = "freebsd", windows)))]
 pub fn whoami() -> String {
     get_output("whoami", &[]).unwrap_or_else(|_| "user".to_owned())
 }

@@ -1,12 +1,12 @@
-#[cfg(not(target_os = "windows"))]
+#[cfg(not(windows))]
 use std::env;
 
-#[cfg(target_os = "windows")]
+#[cfg(windows)]
 pub fn get_shell() -> &'static str {
     "cmd"
 }
 
-#[cfg(not(target_os = "windows"))]
+#[cfg(not(windows))]
 pub fn get_shell() -> String {
     if let Ok(var) = env::var("SHELL") {
         if let Some(last_slash) = var.rfind('/') {

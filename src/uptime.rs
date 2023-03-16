@@ -1,10 +1,10 @@
 #[cfg(target_os = "linux")]
 use std::fs;
 
-#[cfg(not(any(target_os = "linux", target_os = "windows")))]
+#[cfg(not(any(target_os = "linux", windows)))]
 use crate::get_output;
 
-#[cfg(any(target_os = "linux", target_os = "windows"))]
+#[cfg(any(target_os = "linux", windows))]
 fn seconds_to_date(mut seconds: u32) -> String {
     if seconds < 60 {
         format!("{}s", seconds)
@@ -48,12 +48,12 @@ pub fn uptime() -> String {
     )
 }
 
-#[cfg(target_os = "windows")]
+#[cfg(windows)]
 pub fn uptime() -> String {
     seconds_to_date(unsafe { windows::Win32::System::SystemInformation::GetTickCount() / 1000 })
 }
 
-#[cfg(not(any(target_os = "linux", target_os = "windows")))]
+#[cfg(not(any(target_os = "linux", windows)))]
 pub fn uptime() -> String {
     if let Ok(o) = get_output("uptime", &[]) {
         let mut uptime = o.split_whitespace();
