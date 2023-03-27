@@ -16,7 +16,7 @@ pub fn whoami() -> String {
 #[cfg(windows)]
 pub fn whoami() -> String {
     get_output("cmd", &["/C", "whoami"])
-        .unwrap_or_else(|_| "user".to_owned())
+        .unwrap_or("user".to_owned())
         .split('\\')
         .last()
         .unwrap_or("user")
@@ -25,5 +25,5 @@ pub fn whoami() -> String {
 
 #[cfg(not(any(target_os = "linux", target_os = "freebsd", windows)))]
 pub fn whoami() -> String {
-    get_output("whoami", &[]).unwrap_or_else(|_| "user".to_owned())
+    get_output("whoami", &[]).unwrap_or("user".to_owned())
 }

@@ -1,10 +1,6 @@
-use std::{env, io::stdout};
+use std::{env, io::stdout, iter};
 
-use crossterm::{
-    self,
-    style::{style, Attribute, ResetColor, Stylize},
-    ExecutableCommand,
-};
+use crossterm::{self, style::Stylize, tty::IsTty};
 
 use zinfo::*;
 
@@ -18,37 +14,40 @@ fn main() -> crossterm::Result<()> {
 
     let (logo, logo_color) = logo(&os_id);
 
-    [
-        format!(
-            "{}@{}",
-            style(whoami()).with(logo_color).attribute(Attribute::Bold),
-            style(hostname())
-                .with(logo_color)
-                .attribute(Attribute::Bold)
-        ),
-        format!("{}{}", style("os    ").with(logo_color), os_name),
-        format!("{}{}", style("kver  ").with(logo_color), get_kver()),
-        format!("{}{}", style("up    ").with(logo_color), uptime()),
-        format!("{}{}", style("sh    ").with(logo_color), get_shell()),
-        if let Ok(m) = get_mem() {
-            format!("{}{}", style("mem   ").with(logo_color), m)
+    print!(
+        "{}",
+        if stdout().is_tty() {
+            [
+                format!(
+                    "{}@{}",
+                    whoami().bold().with(logo_color),
+                    hostname().bold().with(logo_color)
+                ),
+                format!("{}{}", "os    ".with(logo_color), os_name),
+                format!("{}{}", "kver  ".with(logo_color), get_kver()),
+                format!("{}{}", "up    ".with(logo_color), uptime()),
+                format!("{}{}", "sh    ".with(logo_color), get_shell()),
+                format!("{}{}", "mem   ".with(logo_color), get_mem()?),
+            ]
+            .iter()
+            .zip(logo.into_iter().chain(iter::repeat("          ")))
+            .map(|x| format!("{}  {}\n", x.1.bold().with(logo_color), x.0))
+            .collect::<String>()
         } else {
-            "0M / 0M".to_owned()
-        },
-    ]
-    .iter()
-    .enumerate()
-    .for_each(|(x, item)| {
-        println!(
-            "{}  {}",
-            style(logo.get(x).unwrap_or(&"          "))
-                .with(logo_color)
-                .attribute(Attribute::Bold),
-            item
-        )
-    });
-
-    stdout().execute(ResetColor)?;
+            [
+                format!("{}@{}", whoami(), hostname()),
+                format!("os    {}", os_name),
+                format!("kver  {}", get_kver()),
+                format!("up    {}", uptime()),
+                format!("sh    {}", get_shell()),
+                format!("mem   {}", get_mem()?),
+            ]
+            .iter()
+            .zip(logo.into_iter().chain(iter::repeat("          ")))
+            .map(|x| format!("{}  {}\n", x.1, x.0))
+            .collect::<String>()
+        }
+    );
 
     Ok(())
 }

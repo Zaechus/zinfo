@@ -15,13 +15,13 @@ pub fn get_kver() -> String {
 
 #[cfg(target_os = "freebsd")]
 pub fn get_kver() -> String {
-    get_output("uname", &["-K"]).unwrap_or_else(|_| "freebsd".to_owned())
+    get_output("uname", &["-K"]).unwrap_or("freebsd".to_owned())
 }
 
 #[cfg(windows)]
 pub fn get_kver() -> String {
     get_output("cmd", &["/C", "wmic os get Version"])
-        .unwrap_or_else(|_| "NT".to_owned())
+        .unwrap_or("NT".to_owned())
         .lines()
         .nth(1)
         .unwrap_or("NT")
@@ -30,5 +30,5 @@ pub fn get_kver() -> String {
 
 #[cfg(not(any(target_os = "linux", target_os = "freebsd", windows)))]
 pub fn get_kver() -> String {
-    get_output("uname", &["-r"]).unwrap_or_else(|_| "linux".to_owned())
+    get_output("uname", &["-r"]).unwrap_or("idk".to_owned())
 }

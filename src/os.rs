@@ -36,8 +36,8 @@ pub fn get_os() -> io::Result<(String, String)> {
         "android".to_owned(),
         format!(
             "{} {}",
-            get_output("uname", &["-o"]).unwrap_or_else(|_| "Android".to_owned()),
-            get_output("getprop", &["ro.build.version.release"]).unwrap_or_else(|_| String::new()),
+            get_output("uname", &["-o"]).unwrap_or("Android".to_owned()),
+            get_output("getprop", &["ro.build.version.release"]).unwrap_or(String::new()),
         ),
     ))
 }
@@ -68,6 +68,6 @@ pub fn get_os() -> io::Result<(String, String)> {
 pub fn get_os() -> io::Result<(String, String)> {
     Ok((
         String::new(),
-        get_output("uname", &["-o"]).unwrap_or_else(|_| "Name".to_owned()),
+        get_output("uname", &["-o"]).unwrap_or("Name".to_owned()),
     ))
 }
