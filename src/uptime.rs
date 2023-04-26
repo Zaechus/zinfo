@@ -1,6 +1,3 @@
-#[cfg(target_os = "linux")]
-use std::fs;
-
 #[cfg(not(any(target_os = "linux", windows)))]
 use crate::get_output;
 
@@ -36,6 +33,8 @@ fn seconds_to_date(mut seconds: u32) -> String {
 
 #[cfg(target_os = "linux")]
 pub fn uptime() -> String {
+    use std::fs;
+
     seconds_to_date(
         fs::read_to_string("/proc/uptime")
             .unwrap_or_default()

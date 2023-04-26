@@ -1,11 +1,10 @@
-#[cfg(any(target_os = "linux", target_os = "freebsd"))]
-use std::env;
-
 #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
 use crate::get_output;
 
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]
 pub fn whoami() -> String {
+    use std::env;
+
     if let Ok(var) = env::var("USER") {
         var
     } else {

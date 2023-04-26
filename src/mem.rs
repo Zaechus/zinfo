@@ -1,16 +1,15 @@
 use std::io;
 
-#[cfg(not(any(target_os = "freebsd", windows)))]
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-};
-
 #[cfg(any(target_os = "freebsd", windows))]
 use crate::get_output;
 
 #[cfg(not(any(target_os = "freebsd", windows)))]
 pub fn get_mem() -> io::Result<String> {
+    use std::{
+        fs::File,
+        io::{BufRead, BufReader},
+    };
+
     let mut used = 0;
     let mut total = 0;
 

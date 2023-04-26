@@ -1,11 +1,10 @@
-#[cfg(target_os = "linux")]
-use std::fs;
-
 #[cfg(not(target_os = "linux"))]
 use crate::get_output;
 
 #[cfg(target_os = "linux")]
 pub fn get_kver() -> String {
+    use std::fs;
+
     if let Ok(ver) = fs::read_to_string("/proc/version") {
         ver.split_whitespace().nth(2).unwrap_or("linux").to_owned()
     } else {

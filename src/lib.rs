@@ -1,6 +1,3 @@
-#[cfg(not(target_os = "linux"))]
-use std::{io, process::Command};
-
 mod hostname;
 mod kver;
 mod logo;
@@ -20,7 +17,9 @@ pub use uptime::uptime;
 pub use whoami::whoami;
 
 #[cfg(not(target_os = "linux"))]
-pub fn get_output(command: &str, args: &[&str]) -> io::Result<String> {
+pub fn get_output(command: &str, args: &[&str]) -> std::io::Result<String> {
+    use std::{io, process::Command};
+
     if let Ok(s) = String::from_utf8(Command::new(command).args(args).output()?.stdout) {
         Ok(s.trim().to_owned())
     } else {

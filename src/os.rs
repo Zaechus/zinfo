@@ -1,16 +1,15 @@
 use std::io;
 
-#[cfg(any(target_os = "linux", target_os = "freebsd"))]
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-};
-
 #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
 use crate::get_output;
 
 #[cfg(any(target_os = "linux", target_os = "freebsd"))]
 pub fn get_os() -> io::Result<(String, String)> {
+    use std::{
+        fs::File,
+        io::{BufRead, BufReader},
+    };
+
     let mut id = String::new();
     let mut name = "Unix".to_owned();
     let mut version_id = String::new();
