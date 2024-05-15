@@ -1,10 +1,15 @@
-use std::{env, io::stdout, iter};
+use std::{
+    env,
+    fmt::Write,
+    io::{self, stdout},
+    iter,
+};
 
 use crossterm::{self, style::Stylize, tty::IsTty};
 
 use zinfo::*;
 
-fn main() -> crossterm::Result<()> {
+fn main() -> io::Result<()> {
     let (os_id, os_name) = get_os()?;
     let os_id = if let Some(arg) = env::args().nth(1) {
         arg.to_lowercase()
@@ -31,8 +36,10 @@ fn main() -> crossterm::Result<()> {
             ]
             .iter()
             .zip(logo.into_iter().chain(iter::repeat("          ")))
-            .map(|x| format!("{}  {}\n", x.1.bold().with(logo_color), x.0))
-            .collect::<String>()
+            .fold(String::new(), |mut output, x| {
+                let _ = writeln!(output, "{}  {}", x.1.bold().with(logo_color), x.0);
+                output
+            })
         } else {
             [
                 format!("{}@{}", whoami(), hostname()),
@@ -44,8 +51,10 @@ fn main() -> crossterm::Result<()> {
             ]
             .iter()
             .zip(logo.into_iter().chain(iter::repeat("          ")))
-            .map(|x| format!("{}  {}\n", x.1, x.0))
-            .collect::<String>()
+            .fold(String::new(), |mut output, x| {
+                let _ = writeln!(output, "{}  {}", x.1, x.0);
+                output
+            })
         }
     );
 
